@@ -11,29 +11,34 @@ namespace CalculatorServices.Controllers
         [HttpPost]
         public ActionResult Add(double number1, double number2)
         {
+            Logger().Debug($"number1: {number1}, number2: {number2}");
             return GetJsonResult(CalcModule.Add(number1, number2));
         }
 
         [HttpPost]
         public ActionResult Subtract(double number1, double number2)
         {
+            Logger().Debug($"number1: {number1}, number2: {number2}");
             return GetJsonResult(CalcModule.Subtract(number1, number2));
         }
 
         [HttpPost]
         public ActionResult Multiply(double number1, double number2)
         {
+            Logger().Debug($"number1: {number1}, number2: {number2}");
             return GetJsonResult(CalcModule.Multiply(number1, number2));
         }
 
         [HttpPost]
         public ActionResult Divide(double number1, double number2)
         {
+            Logger().Debug($"number1: {number1}, number2: {number2}");
             return GetJsonResult(CalcModule.Divide(number1, number2));
         }
 
         private JsonResult GetJsonResult((ResultType resultCode, double result) calcResult)
         {
+            Logger().Debug($"resultCode: {calcResult.resultCode}, result: {calcResult.result}");
             try
             {
                 switch (calcResult.resultCode)
@@ -49,6 +54,7 @@ namespace CalculatorServices.Controllers
             }
             catch (Exception ex)
             {
+                Logger().Error(ex.ToString());
                 return Json(new ApiError(ResultType.Exception.ToString(), ex.Message));
             }
         }

@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using NLog;
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +10,19 @@ namespace CalculatorServices.Controllers
 {
     public class JsonNetController : Controller
     {
+        protected Logger Logger()
+        {
+            var method = new StackFrame(1).GetMethod();
+            var fullMethodName =
+                string.Format(
+                    "{0}.{1}",
+                    method.DeclaringType.FullName,
+                    method.Name
+                );
+
+            return LogManager.GetLogger(fullMethodName);
+        }
+
         protected override JsonResult Json(object data, string contentType,
                   Encoding contentEncoding, JsonRequestBehavior behavior)
         {
