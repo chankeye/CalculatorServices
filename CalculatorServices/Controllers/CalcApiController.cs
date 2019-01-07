@@ -1,4 +1,5 @@
-﻿using CalculatorServices.Enums;
+﻿using CalculatorServices.DTOs;
+using CalculatorServices.Enums;
 using CalculatorServices.Models;
 using CalculatorServices.Utilites;
 using System;
@@ -9,45 +10,53 @@ namespace CalculatorServices.Controllers
     public class CalcApiController : JsonNetController
     {
         [HttpPost]
-        public ActionResult Add(double number1, double number2)
+        public ActionResult Add(decimal number1, decimal number2)
         {
             Logger().Debug($"number1: {number1}, number2: {number2}");
-            return GetJsonResult(CalcModule.Add(number1, number2));
+
+            var calcModule = new CalcModule();
+            return GetJsonResult(calcModule.Add(number1, number2));
         }
 
         [HttpPost]
-        public ActionResult Subtract(double number1, double number2)
+        public ActionResult Subtract(decimal number1, decimal number2)
         {
             Logger().Debug($"number1: {number1}, number2: {number2}");
-            return GetJsonResult(CalcModule.Subtract(number1, number2));
+
+            var calcModule = new CalcModule();
+            return GetJsonResult(calcModule.Subtract(number1, number2));
         }
 
         [HttpPost]
-        public ActionResult Multiply(double number1, double number2)
+        public ActionResult Multiply(decimal number1, decimal number2)
         {
             Logger().Debug($"number1: {number1}, number2: {number2}");
-            return GetJsonResult(CalcModule.Multiply(number1, number2));
+
+            var calcModule = new CalcModule();
+            return GetJsonResult(calcModule.Multiply(number1, number2));
         }
 
         [HttpPost]
-        public ActionResult Divide(double number1, double number2)
+        public ActionResult Divide(decimal number1, decimal number2)
         {
             Logger().Debug($"number1: {number1}, number2: {number2}");
-            return GetJsonResult(CalcModule.Divide(number1, number2));
+
+            var calcModule = new CalcModule();
+            return GetJsonResult(calcModule.Divide(number1, number2));
         }
 
-        private JsonResult GetJsonResult((ResultType resultCode, double result) calcResult)
+        private JsonResult GetJsonResult(CalcResult calcResult)
         {
-            Logger().Debug($"resultCode: {calcResult.resultCode}, result: {calcResult.result}");
+            Logger().Debug($"ResultCode: {calcResult.ResultCode}, OperationResult: {calcResult.OperationResult}");
             try
             {
-                switch (calcResult.resultCode)
+                switch (calcResult.ResultCode)
                 {
                     case ResultType.Success:
-                        return Json(new ApiResult<double>(calcResult.result));
+                        return Json(new ApiResult<decimal>(calcResult.OperationResult));
                     case ResultType.OverFlow:
                     case ResultType.ZeroDivisor:
-                        return Json(new ApiError(calcResult.resultCode.ToString(), calcResult.resultCode.GetDescription()));
+                        return Json(new ApiError(calcResult.ResultCode.ToString(), calcResult.ResultCode.GetDescription()));
                     default:
                         return Json(new ApiError(ResultType.Unknown.ToString(), ResultType.Unknown.GetDescription()));
                 }

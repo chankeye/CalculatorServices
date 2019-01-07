@@ -105,6 +105,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CalcApiController.cs" />
     <Compile Include="Controllers\JsonNetController.cs" />
+    <Compile Include="DTOs\CalcResult.cs" />
+    <Compile Include="Enums\OperatorType.cs" />
     <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -121,15 +123,6 @@
       <SubType>Designer</SubType>
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
-    <None Include="NLog.Debug.config">
-      <DependentUpon>NLog.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="NLog.Release.config">
-      <DependentUpon>NLog.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

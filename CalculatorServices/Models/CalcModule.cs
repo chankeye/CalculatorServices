@@ -1,42 +1,65 @@
-﻿using CalculatorServices.Enums;
+﻿using CalculatorServices.DTOs;
+using CalculatorServices.Enums;
+using System;
 
 namespace CalculatorServices.Models
 {
     public class CalcModule
     {
-        public static (ResultType resultCode, double result) Add(double number1, double number2)
+        public CalcResult Add(decimal num1, decimal num2)
         {
-            var result = number1 + number2;
-            var resultType = double.IsInfinity(result) ? ResultType.OverFlow : ResultType.Success;
-
-            return (resultType, result);
+            return Calc(num1, num2, OperatorType.Add);
         }
 
-        public static (ResultType resultCode, double result) Subtract(double number1, double number2)
+        public CalcResult Subtract(decimal num1, decimal num2)
         {
-            var result = number1 - number2;
-            var resultType = double.IsInfinity(result) ? ResultType.OverFlow : ResultType.Success;
-
-            return (resultType, result);
+            return Calc(num1, num2, OperatorType.Subtract);
         }
 
-        public static (ResultType resultCode, double result) Multiply(double number1, double number2)
+        public CalcResult Multiply(decimal num1, decimal num2)
         {
-            var result = number1 * number2;
-            var resultType = double.IsInfinity(result) ? ResultType.OverFlow : ResultType.Success;
-
-            return (resultType, result);
+            return Calc(num1, num2, OperatorType.Multiply);
         }
 
-        public static (ResultType resultCode, double result) Divide(double number1, double number2)
+        public CalcResult Divide(decimal num1, decimal num2)
         {
-            if (number2 == 0)
-                return (ResultType.ZeroDivisor, 0);
+            if (num2 == 0)
+                return new CalcResult { ResultCode = ResultType.ZeroDivisor };
 
-            var result = number1 / number2;
-            var resultType = double.IsInfinity(result) ? ResultType.OverFlow : ResultType.Success;
+            return Calc(num1, num2, OperatorType.Divide);
+        }
 
-            return (resultType, result);
+        private CalcResult Calc(decimal num1, decimal num2, OperatorType opera)
+        {
+            var result = new CalcResult
+            {
+                ResultCode = ResultType.Success
+            };
+
+            try
+            {
+                switch (opera)
+                {
+                    case OperatorType.Add:
+                        result.OperationResult = num1 + num2;
+                        break;
+                    case OperatorType.Subtract:
+                        result.OperationResult = num1 - num2;
+                        break;
+                    case OperatorType.Multiply:
+                        result.OperationResult = num1 * num2;
+                        break;
+                    case OperatorType.Divide:
+                        result.OperationResult = num1 / num2;
+                        break;
+                }
+            }
+            catch (OverflowException)
+            {
+                result.ResultCode = ResultType.OverFlow;
+            }
+
+            return result;
         }
     }
 }
