@@ -4,12 +4,13 @@ namespace CalculatorServices.Enums
 {
     public enum ResultType
     {
-        Success,
+        Success = 200,
         [Description("Result is overflow")]
-        OverFlow,
+        OverFlow = 400,
         [Description("Divisor can not be zero")]
         ZeroDivisor,
         [Description("Unknown error")]
-        Unknown
+        Unknown,
+        Exception = 500
     }
 }

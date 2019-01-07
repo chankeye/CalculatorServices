@@ -1,6 +1,7 @@
 ﻿using CalculatorServices.Enums;
 using CalculatorServices.Models;
 using CalculatorServices.Utilites;
+using System;
 using System.Web.Mvc;
 
 namespace CalculatorServices.Controllers
@@ -33,15 +34,22 @@ namespace CalculatorServices.Controllers
 
         private JsonResult GetJsonResult((ResultType resultCode, double result) calcResult)
         {
-            switch (calcResult.resultCode)
+            try
             {
-                case ResultType.Success:
-                    return Json(new ApiResult<double>(calcResult.result));
-                case ResultType.OverFlow:
-                case ResultType.ZeroDivisor:
-                    return Json(new ApiError(calcResult.resultCode.ToString(), calcResult.resultCode.GetDescription()));
-                default:
-                    return Json(new ApiError(ResultType.Unknown.ToString(), ResultType.Unknown.GetDescription()));
+                switch (calcResult.resultCode)
+                {
+                    case ResultType.Success:
+                        return Json(new ApiResult<double>(calcResult.result));
+                    case ResultType.OverFlow:
+                    case ResultType.ZeroDivisor:
+                        return Json(new ApiError(calcResult.resultCode.ToString(), calcResult.resultCode.GetDescription()));
+                    default:
+                        return Json(new ApiError(ResultType.Unknown.ToString(), ResultType.Unknown.GetDescription()));
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new ApiError(ResultType.Exception.ToString(), ex.Message));
             }
         }
     }

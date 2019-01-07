@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalculatorServices.Enums;
+using System;
 
 namespace CalculatorServices.Models
 {
@@ -37,7 +38,7 @@ namespace CalculatorServices.Models
         /// <param name="data"></param>
         public ApiResult(T data)
         {
-            Code = "0000";
+            Code = ResultType.Success.ToString();
             Succ = true;
             DataTime = DateTime.Now;
             Data = data;
