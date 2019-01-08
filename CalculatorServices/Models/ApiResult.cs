@@ -23,7 +23,7 @@ namespace CalculatorServices.Models
         /// <summary>
         /// Data time
         /// </summary>
-        public DateTime DataTime { get; set; }
+        public DateTime DateTime { get; set; }
         /// <summary>
         /// Data
         /// </summary>
@@ -40,7 +40,7 @@ namespace CalculatorServices.Models
         {
             Code = ResultType.Success.ToString();
             Succ = true;
-            DataTime = DateTime.Now;
+            DateTime = DateTime.UtcNow;
             Data = data;
         }
     }
@@ -56,7 +56,7 @@ namespace CalculatorServices.Models
         {
             Code = code;
             Succ = false;
-            DataTime = DateTime.Now;
+            DateTime = DateTime.UtcNow;
             Message = message;
         }
     }
